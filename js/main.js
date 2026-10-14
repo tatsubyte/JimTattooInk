@@ -1,485 +1,219 @@
-// js/main.js - Chatbot y Funcionalidad General (Menú Responsive)
+// ============================================================================
+// CONFIGURACIÓN DE FIREBASE (Reemplaza con tus credenciales de Firebase Console)
+// ============================================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Objeto de configuración para las Preguntas Frecuentes (FAQs)
-const FAQ_CONFIG = [
-    {
-        id: 1,
-        keywords: ['hola', 'buenas', 'hi', 'hello', 'saludo'],
-        response: "¡Hola! Soy Jim Tattoo Assistant. Puedo ayudarte con información sobre **precios**, **piercings**, **cuidados post-sesión**, o conectarte directamente con Jim. ¿Qué te interesa saber hoy? 😊",
-        actions: [
-            { text: "Precios Tatuajes", action: "precios_tatuajes" },
-            { text: "Tipos de Piercing", action: "tipos_piercing" },
-            { text: "Reservar Cita", action: "whatsapp" }
-        ]
-    },
-    {
-        id: 2,
-        keywords: ['precio', 'cuánto', 'cuesta', 'valor', 'tarifa', 'presupuesto'],
-        response: "Los precios de los tatuajes varían según el tamaño y la complejidad del diseño. Pequeños desde **40€**, medianos **80-150€**, y diseños grandes desde **200€**. Para un presupuesto exacto, por favor, envíanos tu idea.",
-        actions: [
-            { text: "📱 Pedir Presupuesto (WhatsApp)", action: "whatsapp" },
-            { text: "Ver Tipos de Piercing", action: "tipos_piercing" }
-        ]
-    },
-    {
-        id: 3,
-        keywords: ['piercing', 'perforación', 'perforar', 'hacen'],
-        response: "Realizamos una amplia variedad de piercings con aguja estéril. Precios iniciales (incluye joya básica): **Nariz (15€)**, **Lengua (20€)**, **Ombligo (20€)**, **Pezón (25€)**, **Microdermal (30€)**.",
-        actions: [
-            { text: "📍 Ver Cuidados Piercing", action: "cuidados_piercing" },
-            { text: "Ver Galería Piercings", action: "link_piercing" }
-        ]
-    },
-    {
-        id: 4,
-        keywords: ['reserva', 'cita', 'appointment', 'agendar', 'apartar'],
-        response: "Puedes reservar tu cita de forma rápida y segura por **WhatsApp al +34 615 796 188** o por **Instagram en @jimtattooink**. Trabajamos con cita previa para garantizar la mejor atención.",
-        actions: [
-            { text: "📱 Reservar por WhatsApp", action: "whatsapp" },
-            { text: "Ver Horario", action: "horario" }
-        ]
-    },
-    {
-        id: 5,
-        keywords: ['ubicación', 'dónde', 'dirección', 'local', 'estudio', 'barcelona'],
-        response: "Estamos en **Barcelona, España**. Recuerda que trabajamos **únicamente con cita previa**. Por favor, contáctanos antes de visitarnos.",
-        actions: [
-            { text: "🗺️ Ver Contacto Completo", action: "link_contacto" }
-        ]
-    },
-    {
-        id: 6,
-        keywords: ['cuidado', 'curación', 'limpieza', 'post', 'piercing'],
-        response: "Para el cuidado de tu piercing: Limpia **2-3 veces al día** con solución salina estéril. **No gires la joya** y evita piscinas. La curación toma de 6 semanas a 6 meses según la zona.",
-        actions: [
-            { text: "Ver Guía Completa", action: "link_cuidados" },
-            { text: "Síntomas de Irritación", action: "irritacion" }
-        ]
-    },
-    {
-        id: 7,
-        keywords: ['cuidado', 'curación', 'limpieza', 'post', 'tattoo', 'tatuaje'],
-        response: "Para el cuidado de tu tatuaje: Retira el vendaje tras 2-3 horas. Lava con jabón neutro, seca con toques y aplica crema específica **2-3 veces al día**. **Evita el sol y piscinas** por 2 semanas.",
-        actions: [
-            { text: "Ver Guía Completa", action: "link_cuidados" },
-            { text: "Retoques", action: "retoques" }
-        ]
-    },
-    {
-        id: 8,
-        keywords: ['irritación', 'hinchazón', 'rojo', 'molestia'],
-        response: "Una hinchazón leve o enrojecimiento inicial es normal. Aplica compresas frías y solución salina. **Si tienes dolor intenso, pus o fiebre**, consulta a un médico inmediatamente. ¡Tu salud es lo primero!",
-        actions: [
-            { text: "Contactar a Jim", action: "whatsapp" }
-        ]
-    },
-    {
-        id: 9,
-        keywords: ['instagram', 'redes', 'social', '@', 'tiktok', 'facebook'],
-        response: "¡Síguenos para ver nuestro trabajo! Estamos como **@jimtattooink** en Instagram y TikTok. ¡No te pierdas nuestros últimos diseños!",
-        actions: [
-            { text: "📸 Ir a Instagram", action: "instagram" }
-        ]
-    },
-    {
-        id: 10,
-        keywords: ['horario', 'hora', 'abre', 'cierra', 'atención'],
-        response: "Nuestro horario de atención es: Lunes a Viernes: **10:00-22:00**, Sábados: **11:00-22:00**, Domingos: **11:00-20:00**. Recuerda que **siempre es con cita previa**.",
-        actions: [
-            { text: "Reservar Cita", action: "whatsapp" }
-        ]
-    },
-    {
-        id: 11,
-        keywords: ['depósito', 'reserva', 'pago inicial'],
-        response: "Sí, requerimos un **depósito del 30%** para confirmar tu cita. Este monto se deduce del precio final y garantiza tu espacio, además de cubrir el tiempo de diseño personalizado.",
-        actions: [
-            { text: "Formas de Pago", action: "formas_pago" }
-        ]
-    },
-    {
-        id: 12,
-        keywords: ['pago', 'pagar', 'efectivo', 'tarjeta', 'bizum'],
-        response: "Aceptamos: **Efectivo**, **Tarjeta de Crédito/Débito** y **Bizum**. Para trabajos de gran envergadura, podemos considerar fraccionar el pago.",
-        actions: [
-            { text: "Pedir Presupuesto", action: "whatsapp" }
-        ]
-    },
-    {
-        id: 13,
-        keywords: ['estilos', 'diseño', 'personalizado', 'blackwork'],
-        response: "Jim es un artista que prefiere crear diseños **únicos y personalizados**. Nuestra especialidad es el **Blackwork** (fineline, geométrico, ilustrativo).",
-        actions: [
-            { text: "Ver Galería", action: "link_gallery" },
-            { text: "Contactar a Jim", action: "whatsapp" }
-        ]
-    },
-    {
-        id: 14,
-        keywords: ['higiene', 'seguridad', 'esterilización', 'materiales'],
-        response: "Nuestra prioridad es tu seguridad. Usamos un **protocolo de higiene completo**: esterilización con autoclave, agujas y materiales **de un solo uso** y superficies desinfectadas rigurosamente.",
-        actions: [
-            { text: "Ver Normas Legales", action: "link_legal" }
-        ]
-    },
-    {
-        id: 15,
-        keywords: ['dolor', 'duele', 'sensibilidad', 'anestesia'],
-        response: "El dolor es subjetivo. Si te preocupa, podemos discutir el uso de **crema anestésica** en la consulta. Lo más importante es venir descansado y bien alimentado.",
-        actions: [
-            { text: "Preparación para la Cita", action: "link_cuidados" }
-        ]
-    },
-    {
-        id: 16,
-        keywords: ['retoques', 'reparar', 'tinta', 'arreglar'],
-        response: "Ofrecemos **retoques menores GRATIS** dentro de los primeros 3 meses. Esto asegura que la intensidad del color sea óptima. Si necesitas un retoque, contáctanos para agendarlo.",
-        actions: [
-            { text: "Cuidados Tatuaje", action: "cuidados_tatuaje" }
-        ]
-    },
-    {
-        id: 17,
-        keywords: ['joya', 'material', 'quirúrgico', 'titanio', 'propia'],
-        response: "Para la perforación inicial, recomendamos **Acero Quirúrgico 316L** o **Titanio**, ambos hipoalergénicos. **No se recomienda** traer tu propia joya, ya que usamos joyería profesional esterilizada.",
-        actions: [
-            { text: "Ver Tipos de Piercing", action: "tipos_piercing" }
-        ]
-    },
-    {
-        id: 18,
-        keywords: ['pistola', 'aguja', 'método', 'perforar'],
-        response: "Solo utilizamos **AGUJA ESTÉRIL tipo catéter**. **NUNCA** usamos pistolas, ya que pueden causar un daño innecesario al tejido y son menos higiénicas.",
-        actions: [
-            { text: "Ver Normas Legales", action: "link_legal" }
-        ]
-    }
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "jimtattoo-ink.firebaseapp.com",
+  projectId: "jimtattoo-ink",
+  storageBucket: "jimtattoo-ink.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "1:000000000000:web:000000000000"
+};
+
+let db = null;
+const firebaseReady = firebaseConfig.apiKey !== "TU_API_KEY";
+if (firebaseReady) {
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+}
+
+// ============================================================================
+// 1. VERIFICACIÓN DE EDAD (+18)
+// ============================================================================
+const ageGate = document.getElementById("age-gate");
+const btnEnter = document.getElementById("btn-enter");
+
+if (ageGate && btnEnter) {
+  if (sessionStorage.getItem("jimtattoo_adult") === "true") {
+    ageGate.classList.add("hidden");
+  }
+  btnEnter.addEventListener("click", () => {
+    sessionStorage.setItem("jimtattoo_adult", "true");
+    ageGate.classList.add("hidden");
+  });
+}
+
+// ============================================================================
+// 2. SISTEMA DE RESEÑAS (3 BURBUJAS VISIBLES + FIREBASE / RESPALDO LOCAL)
+// ============================================================================
+const defaultReviews = [
+  { name: "Marc V.", rating: 5, text: "Increíble trabajo en mi brazo Blackwork. Higiene impecable y trato de 10 en Barcelona." },
+  { name: "Laura G.", rating: 5, text: "Me hice el microdermal y el septum con Jim. Cero dolor y curación perfecta siguiendo su guía." },
+  { name: "Dani R.", rating: 5, text: "Diseño 100% personalizado. Captó mi idea al instante y el resultado superó lo que imaginaba." },
+  { name: "Carla M.", rating: 5, text: "Estudio súper limpio, materiales estériles abiertos frente a ti. Total confianza." }
 ];
 
-class ChatBot {
+let reviewsList = JSON.parse(localStorage.getItem("jimtattoo_reviews")) || defaultReviews;
+let currentReviewIndex = 0;
 
-    constructor() {
-        // 1. Crear el HTML si no existe
-        this.createChatbotHTML();
+const reviewsContainer = document.getElementById("reviews-container");
+const btnPrev = document.getElementById("prev-review");
+const btnNext = document.getElementById("next-review");
+const btnToggleForm = document.getElementById("toggle-review-form");
+const reviewForm = document.getElementById("review-form");
 
-        // 2. Obtener referencias
-        this.widget = document.getElementById('chatbotWidget');
-        this.container = this.widget;
-        this.toggle = document.getElementById('chatbotToggle');
-        this.close = document.getElementById('chatbotClose');
-        this.messages = document.getElementById('chatbotMessages');
-        this.input = document.getElementById('chatbotInput');
-        this.send = document.getElementById('chatbotSend');
-        
-        // 3. Inicializar
-        this.init();
-    }
+function renderReviews() {
+  if (!reviewsContainer) return;
+  reviewsContainer.innerHTML = "";
 
-    createChatbotHTML() {
-        if (document.getElementById('chatbotWidget')) return;
-        
-        const initialQuestionsHTML = `
-            <button class="quick-question" data-question="¿Cuánto cuesta un tatuaje?">Precios</button>
-            <button class="quick-question" data-question="¿Cómo agendo una cita?">Cita</button>
-            <button class="quick-question" data-question="cuidados tatuaje">Cuidados</button>
-        `;
-
-        const initialBotMessage = `
-            <div class="message bot-message">
-                <p>¡Hola! Soy Jim Tattoo Assistant. ¿En qué puedo ayudarte hoy? 😎</p>
-            </div>
-        `;
-
-        const chatbotHTML = `
-            <div class="chatbot-widget" id="chatbotWidget">
-                <div class="chatbot-header">
-                    <div class="chatbot-avatar">
-                        <!-- Ruta de imagen del chatbot mantenida -->
-                        <img src="images/logos/logo1.png" alt="images/logos/logo1.png" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                    </div>
-                    <div class="chatbot-info">
-                        <h4>Jim Tattoo Assistant</h4>
-                        <p>En línea</p>
-                    </div>
-                    <button class="chatbot-close" id="chatbotClose">×</button>
-                </div>
-                
-                <div class="chatbot-messages" id="chatbotMessages">
-                    ${initialBotMessage}
-                </div>
-                
-                <div class="chatbot-input">
-                    <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta...">
-                    <button id="chatbotSend">➤</button>
-                </div>
-
-                <div class="chatbot-quick-questions" id="chatbotQuickQuestions">
-                    ${initialQuestionsHTML}
-                </div>
-            </div>
-            <button class="chatbot-toggle" id="chatbotToggle">
-                <span>❓</span>  
-            </button>
-        `;
-
-        document.body.insertAdjacentHTML('beforeend', chatbotHTML);
-    }
-
-    init() {
-        // Event listeners principales
-        this.toggle.addEventListener('click', () => this.toggleChat());
-        this.close.addEventListener('click', () => this.closeChat());
-        this.send.addEventListener('click', () => this.sendMessage());
-        this.input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.sendMessage();
-        });
-        
-        // Event listeners para las preguntas rápidas iniciales
-        this.messages.addEventListener('click', (e) => this.handleMessageClick(e));
-        document.getElementById('chatbotQuickQuestions').addEventListener('click', (e) => {
-            if (e.target.classList.contains('quick-question')) {
-                const question = e.target.getAttribute('data-question');
-                this.addUserMessage(question);
-                this.processQuestion(question);
-            }
-        });
-
-        // Funcionalidad de menú responsive (integrada aquí)
-        const navToggle = document.getElementById('navToggle');
-        const navMenu = document.getElementById('navMenu');
-        if (navToggle && navMenu) {
-            navToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-            });
-        }
-    }
-
-    toggleChat() {
-        this.container.classList.toggle('active');
-        if (this.container.classList.contains('active')) {
-            this.scrollToBottom();
-        }
-    }
-
-    closeChat() {
-        this.container.classList.remove('active');
-    }
-
-    addUserMessage(text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message user-message';
-        messageDiv.innerHTML = `<p>${text}</p>`;
-        this.messages.appendChild(messageDiv);
-        this.scrollToBottom();
-    }
-
-    addBotMessage(text, actions = []) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message bot-message';
-        
-        let contentHTML = `<p>${text}</p>`;
-        
-        if (actions.length > 0) {
-            const actionsHTML = actions.map(action => 
-                `<button class="action-button" data-action="${action.action}">${action.text}</button>`
-            ).join('');
-            contentHTML += `<div class="action-buttons-container">${actionsHTML}</div>`;
-        }
-        
-        messageDiv.innerHTML = contentHTML;
-        
-        // Simular "typing" con un delay
-        setTimeout(() => {
-            this.messages.appendChild(messageDiv);
-            this.scrollToBottom();
-        }, 500);
-    }
-    
-    handleMessageClick(e) {
-        if (e.target.classList.contains('action-button')) {
-            const action = e.target.getAttribute('data-action');
-            this.handleAction(action);
-        }
-    }
-
-    scrollToBottom() {
-        this.messages.scrollTop = this.messages.scrollHeight;
-    }
-
-    sendMessage() {
-        const text = this.input.value.trim();
-        if (text) {
-            this.addUserMessage(text);
-            this.input.value = '';
-            this.processQuestion(text);
-        }
-    }
-
-    processQuestion(question) {
-        const q = question.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Normalizar y quitar acentos
-        let response = null;
-        let actions = [];
-
-        for (const faq of FAQ_CONFIG) {
-            const match = faq.keywords.some(keyword => q.includes(keyword));
-            if (match) {
-                response = faq.response;
-                actions = faq.actions || [];
-                break;
-            }
-        }
-
-        if (!response) {
-            response = "Lo siento, no tengo una respuesta específica. Te recomiendo contactar a Jim directamente para consultas detalladas.";
-            actions = [
-                { text: "📱 Contactar por WhatsApp", action: "whatsapp" },
-                { text: "📸 Ver Instagram", action: "instagram" }
-            ];
-        }
-
-        this.addBotMessage(response, actions);
-    }
-
-    handleAction(action) {
-        let closeAfterAction = true; 
-        
-        switch(action) {
-            case 'whatsapp':
-                window.open('https://wa.me/34615796188', '_blank');
-                break;
-            case 'instagram':
-                window.open('https://instagram.com/jimtattooink', '_blank');
-                break;
-            case 'link_gallery':
-                window.location.href = 'gallery.html';
-                break;
-            case 'link_piercing':
-                window.location.href = 'piercing.html';
-                break;
-            case 'link_cuidados':
-                window.location.href = 'cuidados.html';
-                break;
-            case 'link_legal':
-                window.location.href = 'legal.html';
-                break;
-            case 'link_contacto':
-                window.location.href = 'index.html#contacto';
-                break;
-            case 'precios_tatuajes':
-                this.processQuestion("precio tatuaje");
-                closeAfterAction = false;
-                break;
-            case 'tipos_piercing':
-                this.processQuestion("tipos piercing");
-                closeAfterAction = false;
-                break;
-            case 'cuidados_piercing':
-                this.processQuestion("cuidado piercing");
-                closeAfterAction = false;
-                break;
-            case 'cuidados_tatuaje':
-                this.processQuestion("cuidado tatuaje");
-                closeAfterAction = false;
-                break;
-            case 'irritacion':
-                this.processQuestion("irritación");
-                closeAfterAction = false;
-                break;
-            case 'retoques':
-                this.processQuestion("retoques");
-                closeAfterAction = false;
-                break;
-            case 'horario':
-                this.processQuestion("horario");
-                closeAfterAction = false;
-                break;
-            case 'formas_pago':
-                this.processQuestion("formas de pago");
-                closeAfterAction = false;
-                break;
-            default:
-                console.warn(`Acción no reconocida: ${action}`);
-        }
-        
-        if (closeAfterAction) {
-            this.closeChat();
-        }
-    }
+  for (let i = 0; i < 3; i++) {
+    const item = reviewsList[(currentReviewIndex + i) % reviewsList.length];
+    const stars = "⭐".repeat(Number(item.rating) || 5);
+    const bubble = document.createElement("article");
+    bubble.className = "review-bubble";
+    bubble.innerHTML = `
+      <h4>${item.name}</h4>
+      <div class="review-stars">${stars}</div>
+      <p>"${item.text}"</p>
+    `;
+    reviewsContainer.appendChild(bubble);
+  }
 }
 
-// Inicializar chatbot cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    new ChatBot();
-});
-// ===== VERIFICACIÓN DE EDAD =====
-class AgeVerification {
-    constructor() {
-        this.modal = document.getElementById('ageVerification');
-        this.confirmBtn = document.getElementById('ageConfirm');
-        this.denyBtn = document.getElementById('ageDeny');
-        this.hasVerified = localStorage.getItem('ageVerified');
-        
-        this.init();
+async function loadFirebaseReviews() {
+  if (!firebaseReady || !db) return;
+  try {
+    const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      const remote = [];
+      snapshot.forEach((doc) => remote.push(doc.data()));
+      reviewsList = [...remote, ...defaultReviews];
+      renderReviews();
     }
-    
-    init() {
-        // Si ya verificó antes, no mostrar modal
-        if (this.hasVerified === 'true') {
-            document.body.classList.add('age-verified');
-            return;
-        }
-        
-        // Mostrar modal y bloquear página
-        document.body.classList.add('age-check-pending');
-        this.modal.style.display = 'flex';
-        
-        // Event listeners
-        this.confirmBtn.addEventListener('click', () => this.confirmAge());
-        this.denyBtn.addEventListener('click', () => this.denyAge());
-        
-        // Prevenir acceso con teclado
-        document.addEventListener('keydown', (e) => {
-            if (document.body.classList.contains('age-check-pending')) {
-                e.preventDefault();
-                return false;
-            }
-        });
-    }
-    
-    confirmAge() {
-        // Guardar en localStorage por 30 días
-        localStorage.setItem('ageVerified', 'true');
-        localStorage.setItem('ageVerifiedTimestamp', Date.now());
-        
-        // Mostrar contenido
-        document.body.classList.remove('age-check-pending');
-        document.body.classList.add('age-verified');
-        
-        console.log('✅ Edad verificada - Acceso permitido');
-    }
-    
-    denyAge() {
-        // Redirigir a página segura o mostrar mensaje
-        const denyMessage = `
-            <div class="age-modal-content">
-                <div class="age-modal-header">
-                    <h2>🔞 Acceso Denegado</h2>
-                </div>
-                <div class="age-modal-body">
-                    <p>Lo sentimos, debes ser <strong>mayor de 18 años</strong> para acceder a este contenido.</p>
-                    <p>Te recomendamos visitar nuestro <a href="https://instagram.com/jimtattooink" target="_blank">Instagram</a> para ver contenido apto para todas las edades.</p>
-                    <button onclick="window.location.href='https://google.com'" class="btn-age btn-age-deny" style="margin-top: 1rem;">
-                        🏠 Salir del sitio
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        this.modal.innerHTML = denyMessage;
-    }
+  } catch (err) {
+    console.warn("Usando reseñas locales mientras se configura Firebase:", err);
+  }
 }
 
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    new AgeVerification();
-});
+if (reviewsContainer) {
+  renderReviews();
+  loadFirebaseReviews();
+
+  btnPrev?.addEventListener("click", () => {
+    currentReviewIndex = (currentReviewIndex - 1 + reviewsList.length) % reviewsList.length;
+    renderReviews();
+  });
+
+  btnNext?.addEventListener("click", () => {
+    currentReviewIndex = (currentReviewIndex + 1) % reviewsList.length;
+    renderReviews();
+  });
+
+  btnToggleForm?.addEventListener("click", () => {
+    reviewForm.classList.toggle("hidden");
+  });
+
+  reviewForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const newReview = {
+      name: document.getElementById("review-name").value.trim(),
+      rating: Number(document.getElementById("review-rating").value),
+      text: document.getElementById("review-text").value.trim(),
+      createdAt: Date.now()
+    };
+
+    reviewsList.unshift(newReview);
+    localStorage.setItem("jimtattoo_reviews", JSON.stringify(reviewsList));
+    currentReviewIndex = 0;
+    renderReviews();
+    reviewForm.reset();
+    reviewForm.classList.add("hidden");
+
+    if (firebaseReady && db) {
+      try {
+        await addDoc(collection(db, "reviews"), newReview);
+      } catch (err) {
+        console.error("Error al guardar en Firebase:", err);
+      }
+    }
+  });
+}
+const filterButtons = document.querySelectorAll(".filter-btn");
+const galleryItems = document.querySelectorAll(".gallery-item");
+
+if (filterButtons.length > 0 && galleryItems.length > 0) {
+  filterButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach((b) => {
+        b.classList.remove("active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+
+      const filterValue = btn.getAttribute("data-filter");
+      galleryItems.forEach((item) => {
+        const category = item.getAttribute("data-category");
+        if (filterValue === "all" || category === filterValue) {
+          item.classList.remove("hidden");
+        } else {
+          item.classList.add("hidden");
+        }
+      });
+    });
+  });
+}
+
+// 4. REPARACIÓN ACTIVA DE IMÁGENES Y DIAGNÓSTICO POR CONSOLA
+function verificarYRepararImagenes() {
+  const extensiones = [".jpg", ".png", ".jpeg", ".webp", ".AVIF", ".JPG", ".PNG"];
+
+  document.querySelectorAll("img").forEach((img) => {
+    let intento = 0;
+    const rutaOriginal = img.getAttribute("src");
+    if (!rutaOriginal) return;
+
+    const rutaBase = rutaOriginal.replace(/\.(avif|jpg|png|jpeg|webp)$/i, "");
+
+    const probarSiguiente = () => {
+      if (intento < extensiones.length) {
+        const nuevaRuta = rutaBase + extensiones[intento];
+        console.log(`Probando formato alternativo para imagen: ${nuevaRuta}`);
+        intento++;
+        img.src = nuevaRuta;
+      } else {
+        console.warn(`No se encontró el archivo de imagen en: ${rutaBase}`);
+      }
+    };
+
+    img.addEventListener("error", probarSiguiente);
+
+    // Si la imagen ya falló antes de que cargara el módulo JS, lanza el reemplazo
+    if (img.complete && img.naturalWidth === 0) {
+      probarSiguiente();
+    }
+  });
+}
+
+verificarYRepararImagenes();
+// ============================================================================
+// 5. MOTOR DEL QUIZ INTERACTIVO -> RESERVA SIN FRICCIÓN EN WHATSAPP
+// ============================================================================
+const quizGroups = document.querySelectorAll(".quiz-options");
+const btnQuizWhatsapp = document.getElementById("btn-quiz-whatsapp");
+
+if (quizGroups.length > 0 && btnQuizWhatsapp) {
+  quizGroups.forEach((group) => {
+    const chips = group.querySelectorAll(".quiz-chip");
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chips.forEach((c) => c.classList.remove("selected"));
+        chip.classList.add("selected");
+      });
+    });
+  });
+
+  btnQuizWhatsapp.addEventListener("click", () => {
+    const estilo = document.querySelector('[data-quiz-group="estilo"] .selected')?.dataset.value || "Blackwork";
+    const zona = document.querySelector('[data-quiz-group="zona"] .selected')?.dataset.value || "Brazo";
+    const tamano = document.querySelector('[data-quiz-group="tamano"] .selected')?.dataset.value || "Mediano";
+
+    const mensaje = `¡Hola Jim! Vengo de jimtattoo.ink 🔥 Quiero cotizar una idea:\n• Estilo: ${estilo}\n• Zona: ${zona}\n• Tamaño: ${tamano}\n¿Qué disponibilidad tienes?`;
+    const url = `https://wa.me/34615796188?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  });
+}
