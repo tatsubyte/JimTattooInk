@@ -1,3 +1,4 @@
+<!-- Reemplaza TODO el contenido de tu archivo disenos.html en VS Code con este bloque -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,6 +11,88 @@
   <link rel="canonical" href="https://jimtattoo.ink/disenos.html">
   <link rel="icon" type="image/png" href="images/gallery/logos/logo1.png">
   <link rel="stylesheet" href="styles.css">
+
+  <!-- ESTILOS CRÍTICOS INTEGRADOS: Garantiza carga instantánea y evita fallos de caché -->
+  <style>
+    .designs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .designs-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+
+    .design-card {
+      background: rgba(18, 18, 23, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.85);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .design-card:hover {
+      transform: translateY(-5px);
+      border-color: #ccff00;
+    }
+
+    .design-img-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: #09090c;
+      overflow: hidden;
+    }
+
+    .design-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .design-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      background: rgba(7, 7, 9, 0.88);
+      color: #ccff00;
+      border: 1px solid #ccff00;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .btn-claim-design {
+      display: block;
+      text-align: center;
+      text-decoration: none !important;
+      background: #ccff00;
+      color: #000000 !important;
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      padding: 13px 10px;
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      transition: filter 0.2s ease;
+    }
+
+    .btn-claim-design:hover {
+      filter: brightness(1.12);
+    }
+  </style>
 </head>
 <body>
 
@@ -59,8 +142,8 @@
   </header>
 
   <main class="main-container">
-    <!-- GALERÍA DE DISEÑOS (1 AL 14 EN CARPETA images/gallery/desing) -->
-    <section aria-label="Catálogo de diseños disponibles" class="portfolio-grid">
+    <!-- GALERÍA DE DISEÑOS (1 AL 14) -->
+    <section aria-label="Catálogo de diseños disponibles" class="designs-grid">
 
       <article class="design-card">
         <div class="design-img-box">
@@ -174,8 +257,6 @@
         <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2314%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
       </article>
 
-      <!-- PEGA AQUÍ DEBAJO TUS NUEVOS DISEÑOS EN EL FUTURO (15, 16, etc.) -->
-
     </section>
   </main>
 
@@ -221,6 +302,38 @@
     <p class="footer-copy">© 2024 Jim Tattoo Ink. Todos los derechos reservados.</p>
   </footer>
 
+  <!-- SCRIPT DE DIAGNÓSTICO Y AUTORREPARACIÓN DE RUTAS PARA DISEÑOS -->
+  <script>
+    document.querySelectorAll('.design-img-box img').forEach((img) => {
+      const match = img.getAttribute('src').match(/\/(\d+)\.[a-zA-Z]+$/);
+      if (!match) return;
+      const num = match[1];
+
+      const rutasAlternativas = [
+        `images/gallery/desing/${num}.jpg`,
+        `images/gallery/desing/${num}.png`,
+        `images/gallery/desing/${num}.jpeg`,
+        `images/gallery/desing/${num}.webp`,
+        `images/gallery/design/${num}.avif`,
+        `images/gallery/design/${num}.jpg`,
+        `images/gallery/design/${num}.png`
+      ];
+
+      let indice = 0;
+      const probarRuta = () => {
+        if (indice < rutasAlternativas.length) {
+          const nuevaRuta = rutasAlternativas[indice++];
+          console.log(`[Diagnóstico Diseños] Probando ruta para #${num}: ${nuevaRuta}`);
+          img.src = nuevaRuta;
+        } else {
+          console.error(`[Error de Archivo] No se encontró la imagen #${num} en images/gallery/desing/. Verifica su nombre en VS Code.`);
+        }
+      };
+
+      img.addEventListener('error', probarRuta);
+      if (img.complete && img.naturalWidth === 0) probarRuta();
+    });
+  </script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
