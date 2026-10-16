@@ -1,4 +1,3 @@
-<!-- PASO 3B: Código completo para el archivo tattoo.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,16 +8,178 @@
   <link rel="canonical" href="https://jimtattoo.ink/tattoo.html">
   <link rel="icon" type="image/avif" href="images/gallery/logos/logo1.png">
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Cuadrícula adaptada a las tarjetas del portafolio */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+      }
+    }
+
+    /* Tarjeta de cada tatuaje */
+    .gallery-item {
+      margin: 0;
+      background: rgba(18, 18, 23, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.85);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      border-color: #ccff00;
+    }
+
+    /* Contenedor de la imagen limpia */
+    .tattoo-img-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: #09090c;
+      overflow: hidden;
+    }
+
+    .tattoo-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .gallery-item:hover .tattoo-img-box img {
+      transform: scale(1.03);
+    }
+
+    /* Etiqueta superior de categoría */
+    .category-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      background: rgba(7, 7, 9, 0.85);
+      color: #ccff00;
+      border: 1px solid rgba(204, 255, 0, 0.6);
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Barra inferior informativa (Tamaño | Descripción en recuadro negro) */
+    .tattoo-info-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+      background: #ccff00;
+      color: #000000;
+      font-family: 'Unbounded', sans-serif;
+      padding: 8px 8px;
+      border-top: 2px solid #09090c;
+      gap: 6px;
+      flex-grow: 1;
+    }
+
+    .size-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      line-height: 1.1;
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    .size-label {
+      font-size: 0.48rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: #000000;
+    }
+
+    .size-value {
+      font-size: 0.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #000000;
+    }
+
+    .divider-line {
+      width: 1px;
+      height: 26px;
+      background-color: rgba(0, 0, 0, 0.35);
+      flex-shrink: 0;
+    }
+
+    /* Píldora negra donde ahora va la descripción del tatuaje */
+    .desc-pill {
+      background: #0d0d11;
+      color: #ccff00;
+      font-size: 0.56rem;
+      font-weight: 700;
+      line-height: 1.25;
+      padding: 6px 10px;
+      border-radius: 14px;
+      flex: 1;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    @media (min-width: 768px) {
+      .tattoo-info-bar {
+        padding: 10px 12px;
+        gap: 10px;
+      }
+      .size-label {
+        font-size: 0.58rem;
+      }
+      .size-value {
+        font-size: 1rem;
+      }
+      .divider-line {
+        height: 30px;
+      }
+      .desc-pill {
+        font-size: 0.68rem;
+        padding: 8px 12px;
+        border-radius: 999px;
+      }
+    }
+  </style>
 </head>
 <body>
-<!-- CINTA URBANA STREETWEAR (Mejora el tiempo de permanencia en página) -->
+
+<!-- CINTA URBANA STREETWEAR -->
 <div class="brand-marquee" aria-hidden="true">
   <div class="marquee-track">
     BLACKWORK BARCELONA • +18 AÑOS DE ARTE EN PIEL • PIERCING &amp; MICRODERMAL • HIGIENE DECRETO 90/2008 • DISEÑOS 100% PROPIOS • SOLO CON CITA PREVIA •
   </div>
 </div>
 
-<!-- BARRA INFERIOR PARA EL PULGAR (Accesibilidad táctil Mobile-First) -->
+<!-- BARRA INFERIOR PARA EL PULGAR -->
 <nav class="thumb-dock" aria-label="Navegación rápida móvil">
   <a href="index.html" class="dock-item"><span>⚡</span>Inicio</a>
   <a href="tattoo.html" class="dock-item active"><span>🖤</span>Tattoo</a>
@@ -26,6 +187,7 @@
   <a href="piercing.html" class="dock-item"><span>💎</span>Piercing</a>
   <a href="cuidados.html" class="dock-item"><span>🛡️</span>Cuidados</a>
 </nav>
+
   <!-- BOTONES FLOTANTES FIJOS -->
   <aside class="floating-socials" aria-label="Redes sociales de contacto rápido">
     <a href="https://wa.me/34615796188" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
@@ -36,7 +198,7 @@
     </a>
   </aside>
 
-  <!-- CABECERA CON LOGO CENTRAL QUE REDIRECCIONA A INICIO -->
+  <!-- CABECERA CON LOGO CENTRAL -->
   <header class="site-header">
     <nav class="nav-pill" aria-label="Navegación principal">
       <a href="index.html#sobre-jim" class="nav-link">jimtattoo</a>
@@ -67,53 +229,7 @@
       </div>
 
       <!-- GALERÍA DE TATUAJES -->
-      <div class="portfolio-grid">
-        <!-- Blackwork (1 al 13, sin el 6) -->
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/1.avif" alt="Tatuaje Blackwork en Barcelona 1" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/2.avif" alt="Tatuaje Blackwork en Barcelona 2" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/3.avif" alt="Tatuaje Blackwork en Barcelona 3" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/4.avif" alt="Tatuaje Blackwork en Barcelona 4" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/5.avif" alt="Tatuaje Blackwork en Barcelona 5" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/7.avif" alt="Tatuaje Blackwork en Barcelona 7" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/8.avif" alt="Tatuaje Blackwork en Barcelona 8" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/9.avif" alt="Tatuaje Blackwork en Barcelona 9" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/10.avif" alt="Tatuaje Blackwork en Barcelona 10" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/11.avif" alt="Tatuaje Blackwork en Barcelona 11" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/12.avif" alt="Tatuaje Blackwork en Barcelona 12" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="blackwork"><img src="images/gallery/blackwork/13.avif" alt="Tatuaje Blackwork en Barcelona 13" loading="lazy"></figure>
-
-        <!-- Minimalista (1 al 6) -->
-        <figure class="gallery-item" data-category="minimalista"><img src="images/gallery/minimalista/1.avif" alt="Tatuaje Minimalista en Barcelona 1" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="minimalista"><img src="images/gallery/minimalista/2.avif" alt="Tatuaje Minimalista en Barcelona 2" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="minimalista"><img src="images/gallery/minimalista/3.avif" alt="Tatuaje Minimalista en Barcelona 3" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="minimalista"><img src="images/gallery/minimalista/4.avif" alt="Tatuaje Minimalista en Barcelona 4" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="minimalista"><img src="images/gallery/minimalista/5.avif" alt="Tatuaje Minimalista en Barcelona 5" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="minimalista"><img src="images/gallery/minimalista/6.avif" alt="Tatuaje Minimalista en Barcelona 6" loading="lazy"></figure>
-
-        <!-- Color (1 al 7) -->
-        <figure class="gallery-item" data-category="color"><img src="images/gallery/color/1.avif" alt="Tatuaje a Color en Barcelona 1" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="color"><img src="images/gallery/color/2.avif" alt="Tatuaje a Color en Barcelona 2" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="color"><img src="images/gallery/color/3.avif" alt="Tatuaje a Color en Barcelona 3" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="color"><img src="images/gallery/color/4.avif" alt="Tatuaje a Color en Barcelona 4" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="color"><img src="images/gallery/color/5.avif" alt="Tatuaje a Color en Barcelona 5" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="color"><img src="images/gallery/color/6.avif" alt="Tatuaje a Color en Barcelona 6" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="color"><img src="images/gallery/color/7.avif" alt="Tatuaje a Color en Barcelona 7" loading="lazy"></figure>
-
-        <!-- Línea Lettering (1 al 6) -->
-        <figure class="gallery-item" data-category="lettering"><img src="images/gallery/linea%20lettering/1.avif" alt="Tatuaje Línea y Lettering 1" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="lettering"><img src="images/gallery/linea%20lettering/2.avif" alt="Tatuaje Línea y Lettering 2" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="lettering"><img src="images/gallery/linea%20lettering/3.avif" alt="Tatuaje Línea y Lettering 3" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="lettering"><img src="images/gallery/linea%20lettering/4.avif" alt="Tatuaje Línea y Lettering 4" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="lettering"><img src="images/gallery/linea%20lettering/5.avif" alt="Tatuaje Línea y Lettering 5" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="lettering"><img src="images/gallery/linea%20lettering/6.avif" alt="Tatuaje Línea y Lettering 6" loading="lazy"></figure>
-
-        <!-- Realismo y Sombra (1 al 5) -->
-        <figure class="gallery-item" data-category="realismo"><img src="images/gallery/realismo%20y%20sombra/1.avif" alt="Tatuaje Realismo y Sombras 1" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="realismo"><img src="images/gallery/realismo%20y%20sombra/2.avif" alt="Tatuaje Realismo y Sombras 2" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="realismo"><img src="images/gallery/realismo%20y%20sombra/3.avif" alt="Tatuaje Realismo y Sombras 3" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="realismo"><img src="images/gallery/realismo%20y%20sombra/4.avif" alt="Tatuaje Realismo y Sombras 4" loading="lazy"></figure>
-        <figure class="gallery-item" data-category="realismo"><img src="images/gallery/realismo%20y%20sombra/5.avif" alt="Tatuaje Realismo y Sombras 5" loading="lazy"></figure>
-      </div>
+      <div class="portfolio-grid" id="galeria-portafolio"></div>
     </section>
   </main>
 
@@ -158,6 +274,127 @@
 
     <p class="footer-copy">© 2024 Jim Tattoo Ink. Todos los derechos reservados.</p>
   </footer>
+
+  <script>
+    // ============================================================================
+    // PANEL DE CONTROL DEL PORTAFOLIO (Edita descripciones, tamaños o añade fotos)
+    // ============================================================================
+    const portafolio = [
+      // --- CARPETA: BLACKWORK (1 al 13, sin el 6) ---
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 1, tamano: "45 CM", desc: "Manga Poseidón y brújula" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 2, tamano: "22 CM", desc: "Guerrero espartano" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 3, tamano: "25 CM", desc: "Medusa y serpiente" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 4, tamano: "18 CM", desc: "Dúo Jack y Sally" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 5, tamano: "10 CM", desc: "Cruz geométrica pecho" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 7, tamano: "16 CM", desc: "Samurái y luna llena" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 8, tamano: "28 CM", desc: "Ojo místico y rosa" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 9, tamano: "11 CM", desc: "Escorpión en cuello" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 10, tamano: "20 CM", desc: "Serpiente con rosa" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 11, tamano: "50 CM", desc: "Espalda mitológica" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 12, tamano: "16 CM", desc: "Dios griego y serpiente" },
+      { categoria: "blackwork", etiqueta: "Blackwork", carpeta: "blackwork", id: 13, tamano: "20 CM", desc: "Cuervo sobre calavera" },
+
+      // --- CARPETA: MINIMALISTA (1 al 6) ---
+      { categoria: "minimalista", etiqueta: "Minimalista", carpeta: "minimalista", id: 1, tamano: "6 CM", desc: "Tigre cachorro en línea" },
+      { categoria: "minimalista", etiqueta: "Minimalista", carpeta: "minimalista", id: 2, tamano: "7 CM", desc: "Niños jugando fútbol" },
+      { categoria: "minimalista", etiqueta: "Minimalista", carpeta: "minimalista", id: 3, tamano: "4 CM", desc: "Mini pizza a color" },
+      { categoria: "minimalista", etiqueta: "Minimalista", carpeta: "minimalista", id: 4, tamano: "5 CM", desc: "Rana inflada línea fina" },
+      { categoria: "minimalista", etiqueta: "Minimalista", carpeta: "minimalista", id: 5, tamano: "5 CM", desc: "Perrito de globo" },
+      { categoria: "minimalista", etiqueta: "Minimalista", carpeta: "minimalista", id: 6, tamano: "4 CM", desc: "Nombre Alex y Araña" },
+
+      // --- CARPETA: COLOR (1 al 7) ---
+      { categoria: "color", etiqueta: "Color", carpeta: "color", id: 1, tamano: "22 CM", desc: "Brújula y ancla acuarela" },
+      { categoria: "color", etiqueta: "Color", carpeta: "color", id: 2, tamano: "20 CM", desc: "Camaleón full color" },
+      { categoria: "color", etiqueta: "Color", carpeta: "color", id: 3, tamano: "18 CM", desc: "Astronauta galaxia" },
+      { categoria: "color", etiqueta: "Color", carpeta: "color", id: 4, tamano: "12 CM", desc: "Donald psicodélico" },
+      { categoria: "color", etiqueta: "Color", carpeta: "color", id: 5, tamano: "15 CM", desc: "Rama de cerezo en mano" },
+      { categoria: "color", etiqueta: "Color", carpeta: "color", id: 6, tamano: "18 CM", desc: "Retrato Joker a color" },
+      { categoria: "color", etiqueta: "Color", carpeta: "color", id: 7, tamano: "24 CM", desc: "Ave Fénix en fuego" },
+
+      // --- CARPETA: LÍNEA LETTERING (1 al 6) ---
+      { categoria: "lettering", etiqueta: "Línea & Lettering", carpeta: "linea%20lettering", id: 1, tamano: "12 CM", desc: "Miradas manga anime" },
+      { categoria: "lettering", etiqueta: "Línea & Lettering", carpeta: "linea%20lettering", id: 2, tamano: "25 CM", desc: "Frase en columna y rosa" },
+      { categoria: "lettering", etiqueta: "Línea & Lettering", carpeta: "linea%20lettering", id: 3, tamano: "12 CM", desc: "Lettering dark en cuello" },
+      { categoria: "lettering", etiqueta: "Línea & Lettering", carpeta: "linea%20lettering", id: 4, tamano: "18 CM", desc: "Rama floral botánica" },
+      { categoria: "lettering", etiqueta: "Línea & Lettering", carpeta: "linea%20lettering", id: 5, tamano: "14 CM", desc: "Viuda negra efecto 3D" },
+      { categoria: "lettering", etiqueta: "Línea & Lettering", carpeta: "linea%20lettering", id: 6, tamano: "18 CM", desc: "Elefante geométrico" },
+
+      // --- CARPETA: REALISMO Y SOMBRA (1 al 5) ---
+      { categoria: "realismo", etiqueta: "Realismo", carpeta: "realismo%20y%20sombra", id: 1, tamano: "22 CM", desc: "Escultura Poseidón" },
+      { categoria: "realismo", etiqueta: "Realismo", carpeta: "realismo%20y%20sombra", id: 2, tamano: "48 CM", desc: "Espalda Samurái sombras" },
+      { categoria: "realismo", etiqueta: "Realismo", carpeta: "realismo%20y%20sombra", id: 3, tamano: "14 CM", desc: "Retrato mascota Beagle" },
+      { categoria: "realismo", etiqueta: "Realismo", carpeta: "realismo%20y%20sombra", id: 4, tamano: "25 CM", desc: "Peces Koi Yin-Yang" },
+      { categoria: "realismo", etiqueta: "Realismo", carpeta: "realismo%20y%20sombra", id: 5, tamano: "22 CM", desc: "Jesucristo y cruz" }
+    ];
+
+    const galeria = document.getElementById('galeria-portafolio');
+
+    portafolio.forEach((item, index) => {
+      const figure = document.createElement('figure');
+      figure.className = 'gallery-item';
+      figure.setAttribute('data-category', item.categoria);
+
+      const atributoCarga = index < 4 ? 'fetchpriority="high"' : 'loading="lazy"';
+      const rutaImagen = `images/gallery/${item.carpeta}/${item.id}.avif`;
+
+      figure.innerHTML = `
+        <div class="tattoo-img-box">
+          <span class="category-badge">${item.etiqueta}</span>
+          <img src="${rutaImagen}" alt="${item.desc} - Tatuaje en Barcelona" ${atributoCarga}>
+        </div>
+        <figcaption class="tattoo-info-bar">
+          <div class="size-info">
+            <span class="size-label">TAMAÑO:</span>
+            <span class="size-value">${item.tamano}</span>
+          </div>
+          <span class="divider-line" aria-hidden="true"></span>
+          <span class="desc-pill">${item.desc}</span>
+        </figcaption>
+      `;
+
+      // Respaldo automático de formatos de imagen (.jpg, .png, .webp)
+      const img = figure.querySelector('img');
+      const rutasAlternativas = [
+        `images/gallery/${item.carpeta}/${item.id}.jpg`,
+        `images/gallery/${item.carpeta}/${item.id}.png`,
+        `images/gallery/${item.carpeta}/${item.id}.webp`
+      ];
+
+      let intento = 0;
+      const probarRuta = () => {
+        if (intento < rutasAlternativas.length) {
+          img.src = rutasAlternativas[intento++];
+        }
+      };
+
+      img.addEventListener('error', probarRuta);
+      if (img.complete && img.naturalWidth === 0) probarRuta();
+
+      galeria.appendChild(figure);
+    });
+
+    // Funcionalidad de los botones de filtro
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        const filterValue = btn.getAttribute('data-filter');
+        document.querySelectorAll('.gallery-item').forEach(card => {
+          if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
 
   <script type="module" src="js/main.js"></script>
 </body>
