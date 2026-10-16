@@ -1,4 +1,3 @@
-<!-- Reemplaza TODO el contenido de tu archivo disenos.html en VS Code con este bloque -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +11,6 @@
   <link rel="icon" type="image/png" href="images/gallery/logos/logo1.png">
   <link rel="stylesheet" href="styles.css">
 
-  <!-- ESTILOS CRÍTICOS INTEGRADOS: Garantiza carga instantánea y evita fallos de caché -->
   <style>
     .designs-grid {
       display: grid;
@@ -74,36 +72,108 @@
       border-radius: 999px;
     }
 
+    /* --- NUEVO ESTILO DE LA BARRA INFERIOR --- */
     .btn-claim-design {
-      display: block;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
       text-decoration: none !important;
       background: #ccff00;
       color: #000000 !important;
       font-family: 'Unbounded', sans-serif;
-      font-weight: 800;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      padding: 13px 10px;
-      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      padding: 8px 10px;
+      border-top: 2px solid #09090c;
+      cursor: pointer;
       transition: filter 0.2s ease;
+      gap: 6px;
     }
 
     .btn-claim-design:hover {
-      filter: brightness(1.12);
+      filter: brightness(1.08);
+    }
+
+    .size-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.1;
+      text-align: left;
+    }
+
+    .size-label {
+      font-size: 0.52rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: #000000;
+    }
+
+    .size-value {
+      font-size: 0.88rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #000000;
+    }
+
+    .divider-line {
+      width: 1px;
+      height: 24px;
+      background-color: rgba(0, 0, 0, 0.35);
+      flex-shrink: 0;
+    }
+
+    .claim-pill {
+      background: #0d0d11;
+      color: #ccff00 !important;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 8px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-claim-design:hover .claim-pill {
+      transform: scale(1.03);
+    }
+
+    /* Ajuste para pantallas más grandes (PC / Tablet) */
+    @media (min-width: 768px) {
+      .btn-claim-design {
+        padding: 10px 14px;
+        gap: 10px;
+      }
+      .size-label {
+        font-size: 0.6rem;
+      }
+      .size-value {
+        font-size: 1.05rem;
+      }
+      .divider-line {
+        height: 28px;
+      }
+      .claim-pill {
+        font-size: 0.75rem;
+        padding: 9px 14px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- CINTA URBANA STREETWEAR -->
   <div class="brand-marquee" aria-hidden="true">
     <div class="marquee-track">
       FLASH DROPS EXCLUSIVOS • PIEZAS ÚNICAS DISPONIBLES • RESERVA TU DISEÑO ANTES DE QUE SE AGOTE • BLACKWORK BARCELONA •
     </div>
   </div>
 
-  <!-- BOTONES FLOTANTES REDES -->
   <aside class="floating-socials" aria-label="Contacto directo">
     <a href="https://wa.me/34615796188" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
       <img src="images/gallery/logos/whats.png" alt="WhatsApp" width="44" height="44">
@@ -113,7 +183,6 @@
     </a>
   </aside>
 
-  <!-- BARRA INFERIOR PARA EL PULGAR -->
   <nav class="thumb-dock" aria-label="Navegación rápida móvil">
     <a href="index.html" class="dock-item"><span>⚡</span>Inicio</a>
     <a href="tattoo.html" class="dock-item"><span>🖤</span>Tattoo</a>
@@ -122,10 +191,9 @@
     <a href="cuidados.html" class="dock-item"><span>🛡️</span>Cuidados</a>
   </nav>
 
-  <!-- CABECERA -->
   <header class="site-header">
     <nav class="nav-pill" aria-label="Navegación superior">
-      <a href="index.html#sobre-jim" class="nav-link">jimtattooink</a>
+      <a href="index.html#sobre-jim" class="nav-link">jimtattoo</a>
       <a href="index.html" class="nav-logo-link" aria-label="Volver al inicio">
         <img src="images/gallery/logos/logo1.png" alt="Logo Jim Tattoo Ink" class="nav-logo">
       </a>
@@ -142,125 +210,10 @@
   </header>
 
   <main class="main-container">
-    <!-- GALERÍA DE DISEÑOS (1 AL 14) -->
-    <section aria-label="Catálogo de diseños disponibles" class="designs-grid">
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#01</span>
-          <img src="images/gallery/desing/1.avif" alt="Diseño de tatuaje Blackwork 1 disponible en Barcelona" fetchpriority="high">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2301%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#02</span>
-          <img src="images/gallery/desing/2.avif" alt="Diseño de tatuaje Blackwork 2 disponible en Barcelona" fetchpriority="high">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2302%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#03</span>
-          <img src="images/gallery/desing/3.avif" alt="Diseño de tatuaje Blackwork 3 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2303%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#04</span>
-          <img src="images/gallery/desing/4.avif" alt="Diseño de tatuaje Blackwork 4 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2304%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#05</span>
-          <img src="images/gallery/desing/5.avif" alt="Diseño de tatuaje Blackwork 5 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2305%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#06</span>
-          <img src="images/gallery/desing/6.avif" alt="Diseño de tatuaje Blackwork 6 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2306%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#07</span>
-          <img src="images/gallery/desing/7.avif" alt="Diseño de tatuaje Blackwork 7 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2307%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#08</span>
-          <img src="images/gallery/desing/8.avif" alt="Diseño de tatuaje Blackwork 8 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2308%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#09</span>
-          <img src="images/gallery/desing/9.avif" alt="Diseño de tatuaje Blackwork 9 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2309%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#10</span>
-          <img src="images/gallery/desing/10.avif" alt="Diseño de tatuaje Blackwork 10 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2310%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#11</span>
-          <img src="images/gallery/desing/11.avif" alt="Diseño de tatuaje Blackwork 11 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2311%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#12</span>
-          <img src="images/gallery/desing/12.avif" alt="Diseño de tatuaje Blackwork 12 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2312%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#13</span>
-          <img src="images/gallery/desing/13.avif" alt="Diseño de tatuaje Blackwork 13 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2313%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-      <article class="design-card">
-        <div class="design-img-box">
-          <span class="design-badge">#14</span>
-          <img src="images/gallery/desing/14.avif" alt="Diseño de tatuaje Blackwork 14 disponible en Barcelona" loading="lazy">
-        </div>
-        <a href="https://wa.me/34615796188?text=%C2%A1Hola%20Jim!%20Me%20interesa%20reservar%20el%20Dise%C3%B1o%20%2314%20de%20la%20web%20%F0%9F%94%A5" target="_blank" rel="noopener noreferrer" class="btn-claim-design">Lo Quiero ⚡</a>
-      </article>
-
-    </section>
+    <!-- El catálogo se genera automáticamente aquí desde el script de abajo -->
+    <section aria-label="Catálogo de diseños disponibles" class="designs-grid" id="catalogo-disenos"></section>
   </main>
 
-  <!-- PIE DE PÁGINA GLOBAL -->
   <footer id="contacto" class="site-footer">
     <div class="footer-grid">
       <div class="footer-col">
@@ -302,36 +255,72 @@
     <p class="footer-copy">© 2024 Jim Tattoo Ink. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- SCRIPT DE DIAGNÓSTICO Y AUTORREPARACIÓN DE RUTAS PARA DISEÑOS -->
   <script>
-    document.querySelectorAll('.design-img-box img').forEach((img) => {
-      const match = img.getAttribute('src').match(/\/(\d+)\.[a-zA-Z]+$/);
-      if (!match) return;
-      const num = match[1];
+    // =========================================================================
+    // PANEL DE CONTROL DE DISEÑOS (Modifica aquí precios, tamaños o añade más)
+    // =========================================================================
+    const disenos = [
+      { id: 1,  precio: "250",  tamano: "20 CM" },
+      { id: 2,  precio: "140€",  tamano: "13 CM" },
+      { id: 3,  precio: "280€", tamano: "25 CM" },
+      { id: 4,  precio: "150€", tamano: "18 CM" },
+      { id: 5,  precio: "100€",  tamano: "9 CM"  },
+      { id: 6,  precio: "220€",  tamano: "20 CM" },
+      { id: 7,  precio: "180€", tamano: "15 CM" },
+      { id: 8,  precio: "250€",  tamano: "20 CM"  },
+      { id: 9,  precio: "200€", tamano: "18 CM" },
+      { id: 10, precio: "100€",  tamano: "10 CM" },
+      { id: 11, precio: "160€", tamano: "15 CM" },
+      { id: 12, precio: "280€", tamano: "20 CM" },
+      { id: 13, precio: "80€",  tamano: "8 CM" },
+      { id: 14, precio: "90€",  tamano: "11 CM" }
+    ];
 
+    const contenedor = document.getElementById('catalogo-disenos');
+
+    disenos.forEach((item, index) => {
+      const article = document.createElement('article');
+      article.className = 'design-card';
+
+      const atributoCarga = index < 2 ? 'fetchpriority="high"' : 'loading="lazy"';
+      const mensaje = `¡Hola Jim! Quiero reservar el Diseño #${item.id} (${item.tamano}) por ${item.precio} 🔥`;
+      const urlWhatsapp = `https://wa.me/34615796188?text=${encodeURIComponent(mensaje)}`;
+
+      article.innerHTML = `
+        <div class="design-img-box">
+          <span class="design-badge">${item.precio}</span>
+          <img src="images/gallery/desing/${item.id}.avif" alt="Diseño Flash Tattoo ${item.id}" ${atributoCarga}>
+        </div>
+        <a href="${urlWhatsapp}" target="_blank" rel="noopener noreferrer" class="btn-claim-design">
+          <div class="size-info">
+            <span class="size-label">TAMAÑO:</span>
+            <span class="size-value">${item.tamano}</span>
+          </div>
+          <span class="divider-line" aria-hidden="true"></span>
+          <span class="claim-pill">¡LO QUIERO! ⚡</span>
+        </a>
+      `;
+
+      // Sistema de respaldo por si la imagen está en otro formato (.jpg, .png, .webp)
+      const img = article.querySelector('img');
       const rutasAlternativas = [
-        `images/gallery/desing/${num}.jpg`,
-        `images/gallery/desing/${num}.png`,
-        `images/gallery/desing/${num}.jpeg`,
-        `images/gallery/desing/${num}.webp`,
-        `images/gallery/design/${num}.avif`,
-        `images/gallery/design/${num}.jpg`,
-        `images/gallery/design/${num}.png`
+        `images/gallery/desing/${item.id}.jpg`,
+        `images/gallery/desing/${item.id}.png`,
+        `images/gallery/desing/${item.id}.webp`,
+        `images/gallery/design/${item.id}.avif`
       ];
 
-      let indice = 0;
+      let intento = 0;
       const probarRuta = () => {
-        if (indice < rutasAlternativas.length) {
-          const nuevaRuta = rutasAlternativas[indice++];
-          console.log(`[Diagnóstico Diseños] Probando ruta para #${num}: ${nuevaRuta}`);
-          img.src = nuevaRuta;
-        } else {
-          console.error(`[Error de Archivo] No se encontró la imagen #${num} en images/gallery/desing/. Verifica su nombre en VS Code.`);
+        if (intento < rutasAlternativas.length) {
+          img.src = rutasAlternativas[intento++];
         }
       };
 
       img.addEventListener('error', probarRuta);
       if (img.complete && img.naturalWidth === 0) probarRuta();
+
+      contenedor.appendChild(article);
     });
   </script>
   <script type="module" src="js/main.js"></script>
